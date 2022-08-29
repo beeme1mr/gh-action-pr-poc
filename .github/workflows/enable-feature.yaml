@@ -60,7 +60,7 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: enable-feature
         with:
-          cmd: jq -n --argjson data "${{ steps.get-feature-flags.outputs.data }}" '.flags."${{ github.event.client_payload.flag_key }}".defaultVariant="${{ github.event.client_payload.default_variant }}"'
+          cmd: jq -n --argjson data '${{ steps.get-feature-flags.outputs.data }}' '.flags."${{ github.event.client_payload.flag_key }}".defaultVariant="${{ github.event.client_payload.default_variant }}"'
           multiline: true
       - name: echo new config
         run: |
