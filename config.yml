@@ -31,7 +31,7 @@ data:
             "on": true,
             "off": false
           },
-          "defaultVariant": "off",
+          "defaultVariant": "on",
           "targeting": {}
         },
         "fib-algo": {
