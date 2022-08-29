@@ -12,6 +12,13 @@ jobs:
       - run: |
           echo PR #${{ github.event.number }} has been merged
 
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const script = require('./notify-keptn.js')
+            console.log(script({github, context}))
+
   close_job:
     # this job will only run if the PR has been closed without being merged
     if: github.event.pull_request.merged == false
@@ -19,6 +26,13 @@ jobs:
     steps:
       - run: |
           echo PR #${{ github.event.number }} has been closed without being merged
+
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v6
+        with:
+          script: |
+            const script = require('./notify-keptn.js')
+            console.log(script({github, context}))
 
 # - name: my active task
 #   run: |
