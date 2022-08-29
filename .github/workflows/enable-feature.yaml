@@ -50,11 +50,19 @@ jobs:
         uses: sergeysova/jq-action@v2
         id: variant-check
         with:
-          # TODO change to real variant name
           cmd: echo '${{ steps.get-feature-flags.outputs.data }}' | jq '.flags."${{ github.event.client_payload.flag_key }}".variants.${{ github.event.client_payload.default_variant }}'
       - name: echo default variant
         run: |
           echo "default variant found = ${{ steps.variant-check.outputs.data }}"
+
+      - name: enable feature
+        uses: sergeysova/jq-action@v2
+        id: enable-feature
+        with:
+          cmd: echo '${{ steps.get-feature-flags.outputs.data }}' | jq '.flags."${{ github.event.client_payload.flag_key }}".defaultVariant.${{ github.event.client_payload.default_variant }}'
+      - name: echo new config
+        run: |
+          echo "new config = ${{ steps.enable-feature.outputs.data }}"
     # - name: update data
     #   run: |
     #     git checkout enable-feature
