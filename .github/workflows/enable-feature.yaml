@@ -73,14 +73,19 @@ jobs:
         uses: fjogeleit/yaml-update-action@main
         with:
           valueFile: "config.yml"
-          propertyPath: "data.config.json"
+          propertyPath: 'data["config.json"]'
           value: ${{ steps.enable-feature.outputs.value }}
           branch: enable-feature/${{ github.event.client_payload.flag_key }}
           targetBranch: master
           createPR: true
-          message: "Update Image Version to ${{ steps.image.outputs.version }}"
+          message: "Update ${{ github.event.client_payload.flag_key }} default variant to '${{ github.event.client_payload.default_variant }}'"
           description: "Automated PR to do stuff!"
-          labels: "shkeptncontext:${{ github.event.client_payload.shkeptncontext }},triggeredid:${{ github.event.client_payload.id }}"
+          labels: |
+            shkeptncontext:${{ github.event.client_payload.shkeptncontext }},
+            triggeredid:${{ github.event.client_payload.id }},
+            project:${{ github.event.client_payload.project }},
+            stage:${{ github.event.client_payload.stage}},
+            service:${{ github.event.client_payload.service}}"
     # - name: update data
     #   run: |
     #     git checkout enable-feature
