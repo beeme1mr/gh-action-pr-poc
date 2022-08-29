@@ -1,0 +1,59 @@
+{
+  "flags": {
+    "new-welcome-message": {
+      "state": "ENABLED",
+      "variants": {
+        "on": true,
+        "off": false
+      },
+      "defaultVariant": "on"
+    },
+    "hex-color": {
+      "returnType": "string",
+      "variants": {
+        "red": "CC0000",
+        "green": "00CC00",
+        "blue": "0000CC",
+        "yellow": "yellow"
+      },
+      "defaultVariant": "red",
+      "state": "ENABLED"
+    },
+    "use-remote-fib-service": {
+      "state": "ENABLED",
+      "variants": {
+        "on": true,
+        "off": false
+      },
+      "defaultVariant": "on",
+      "targeting": {}
+    },
+    "fib-algo": {
+      "returnType": "string",
+      "variants": {
+        "recursive": "recursive",
+        "memo": "memo",
+        "loop": "loop",
+        "binet": "binet"
+      },
+      "defaultVariant": "recursive",
+      "state": "ENABLED",
+      "targeting": {
+        "if": [
+          {
+            "in": [
+              "@faas.com",
+              {
+                "var": [
+                  "email"
+                ]
+              }
+            ]
+          },
+          "binet",
+          null
+        ]
+      }
+    }
+  }
+}
