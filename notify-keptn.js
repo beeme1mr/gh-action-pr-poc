@@ -1,12 +1,14 @@
 module.exports = ({ context }) => {
   const labels = context.payload.pull_request.labels;
+  console.log(lables);
   const parsedLabels = {};
   labels.forEach((label) => {
     const [key, value] = label.name.split(":");
     parsedLabels[key] = value;
   });
+  console.log(parsedLabels);
 
-  return {
+  return JSON.stringify({
     data: {
       project: parsedLabels["project"],
       stage: parsedLabels["stage"],
@@ -20,5 +22,5 @@ module.exports = ({ context }) => {
     type: "sh.keptn.event.mytask-active.finished",
     shkeptncontext: parsedLabels["shkeptncontext"],
     triggeredid: parsedLabels["triggeredid"],
-  };
+  });
 };
