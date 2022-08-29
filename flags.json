@@ -25,8 +25,21 @@
         "on": true,
         "off": false
       },
-      "defaultVariant": "on",
-      "targeting": {}
+      "defaultVariant": "off",
+      "targeting": {
+        "if": [
+          {
+            "in": [
+              "k6",
+              {
+                "var": "userAgent"
+              }
+            ]
+          },
+          "on",
+          null
+        ]
+      }
     },
     "fib-algo": {
       "returnType": "string",

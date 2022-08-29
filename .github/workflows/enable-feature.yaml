@@ -4,38 +4,20 @@ on:
     types:
       - active-task
 
+# Payload expected
+# - flag_key
+# - default_variant
+# - shkeptncontext
+# - id
+# - project
+# - stage
+# - service
+
 jobs:
   test:
     name: Run Enable Feature
     runs-on: ubuntu-latest
     steps:
-      - name: my active task
-        run: |
-          echo "Received active webhook, displaying received data"
-          echo "type = ${{ github.event.client_payload.type }}"
-          echo "shkeptncontext = ${{ github.event.client_payload.shkeptncontext }}"
-          echo "id = ${{ github.event.client_payload.id }}"
-      - name: send finished event
-        run: |
-          echo "Received active webhook, will send back Keptn finished event"
-          json=$(cat <<-END
-              {
-                "data": {
-                  "project":"${{ github.event.client_payload.project }}",
-                  "stage": "${{ github.event.client_payload.stage}}",
-                  "service": "${{ github.event.client_payload.service}}",
-                  "status": "succeeded",
-                  "result": "pass"
-                },
-                "source": "github",
-                "specversion": "1.0",
-                "type": "sh.keptn.event.mytask-active.finished",
-                "shkeptncontext": "${{ github.event.client_payload.shkeptncontext }}",
-                "triggeredid": "${{ github.event.client_payload.id }}"
-              }
-          END
-          )
-          echo "json=$json"
       - name: checkout
         uses: actions/checkout@v3
 
@@ -67,6 +49,7 @@ jobs:
           targetBranch: master
           createPR: true
           message: "Update ${{ github.event.client_payload.flag_key }} default variant to '${{ github.event.client_payload.default_variant }}'"
+          # TODO make the PR description useful
           description: |
             # Overview
 

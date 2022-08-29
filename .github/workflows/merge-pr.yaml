@@ -1,0 +1,49 @@
+name: Keptn event
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+  merge_job:
+    # this job will only run if the PR has been merged
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo PR #${{ github.event.number }} has been merged
+
+  close_job:
+    # this job will only run if the PR has been closed without being merged
+    if: github.event.pull_request.merged == false
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo PR #${{ github.event.number }} has been closed without being merged
+
+# - name: my active task
+#   run: |
+#     echo "Received active webhook, displaying received data"
+#     echo "type = ${{ github.event.client_payload.type }}"
+#     echo "shkeptncontext = ${{ github.event.client_payload.shkeptncontext }}"
+#     echo "id = ${{ github.event.client_payload.id }}"
+# - name: send finished event
+#   run: |
+#     echo "Received active webhook, will send back Keptn finished event"
+#     json=$(cat <<-END
+#         {
+#           "data": {
+#             "project":"${{ github.event.client_payload.project }}",
+#             "stage": "${{ github.event.client_payload.stage}}",
+#             "service": "${{ github.event.client_payload.service}}",
+#             "status": "succeeded",
+#             "result": "pass"
+#           },
+#           "source": "github",
+#           "specversion": "1.0",
+#           "type": "sh.keptn.event.mytask-active.finished",
+#           "shkeptncontext": "${{ github.event.client_payload.shkeptncontext }}",
+#           "triggeredid": "${{ github.event.client_payload.id }}"
+#         }
+#     END
+#     )
+#     echo "json=$json"
