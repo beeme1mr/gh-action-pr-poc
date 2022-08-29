@@ -16,7 +16,6 @@ jobs:
       - uses: actions/github-script@v6
         id: get-payload
         with:
-          result-encoding: string
           script: |
             const script = require('./notify-keptn.js')
             return script({context})
