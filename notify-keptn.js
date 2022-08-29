@@ -1,6 +1,6 @@
 module.exports = ({ context }) => {
   const labels = context.payload.pull_request.labels;
-  console.log(lables);
+  console.log(labels);
   const parsedLabels = {};
   labels.forEach((label) => {
     const [key, value] = label.name.split(":");
