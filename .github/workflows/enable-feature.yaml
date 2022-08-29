@@ -3,6 +3,9 @@ on:
   repository_dispatch:
     types:
       - active-task
+
+env:
+  FLAG_KEY: "use-remote-fib-service"
 jobs:
   test:
     name: Run Enable Feature
@@ -48,6 +51,15 @@ jobs:
       - name: echo flags
         run: |
           echo "type = ${{ steps.get-feature-flags.outputs.data }}"
+      - name: check for variant
+        uses: sergeysova/jq-action@v2
+        id: variant-check
+        with:
+          # TODO change to real variant name
+          cmd: '${{ steps.get-feature-flags.outputs.data }} | jq ''.flags."$FLAG_KEY".variants.{{ github.event.client_payload.default_variant }}'''
+      - name: echo default variant
+        run: |
+          echo "default variant found = ${{ steps.variant-check.outputs.data }}"
     # - name: update data
     #   run: |
     #     git checkout enable-feature
