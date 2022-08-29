@@ -56,7 +56,7 @@ jobs:
         with:
           # TODO change to real variant name
           cmd: |
-            cat temp.json | jq .flags."$FLAG_KEY".variants.{{ github.event.client_payload.default_variant }}
+            cat temp.json | jq .flags."$FLAG_KEY".variants.${{ github.event.client_payload.default_variant }}
       - name: echo default variant
         run: |
           echo "default variant found = ${{ steps.variant-check.outputs.data }}"
