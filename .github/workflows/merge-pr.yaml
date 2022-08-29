@@ -22,7 +22,7 @@ jobs:
 
       - name: Send finished event
         run: |
-          curl -X POST "https://webhook.site/1b60a678-faa5-4b4d-9e76-b6fe30484864" -H "Content-Type: application/json" -H "accept: application/json" -d "${{steps.get-payload.outputs.result}}"
+          curl -X POST "https://webhook.site/1b60a678-faa5-4b4d-9e76-b6fe30484864" -H "Content-Type: application/json" -H "accept: application/json" -d ${{steps.get-payload.outputs.result}}
 
   close_job:
     # this job will only run if the PR has been closed without being merged
