@@ -14,7 +14,7 @@ on:
 # - service
 
 jobs:
-  test:
+  enable_feature_job:
     name: Run Enable Feature
     runs-on: ubuntu-latest
     steps:
