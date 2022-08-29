@@ -1,0 +1,53 @@
+name: Enable Feature
+on:
+  repository_dispatch:
+    types:
+      - active-task
+jobs:
+  test:
+    name: Run Enable Feature
+    runs-on: ubuntu-latest
+    steps:
+      - name: my active task
+        run: |
+          echo "Received active webhook, displaying received data"
+          echo "type = ${{ github.event.client_payload.type }}"
+          echo "shkeptncontext = ${{ github.event.client_payload.shkeptncontext }}"
+          echo "id = ${{ github.event.client_payload.id }}"
+      - name: send finished event
+        run: |
+          echo "Received active webhook, will send back Keptn finished event"
+          json=$(cat <<-END
+              {
+                "data": {
+                  "project":"${{ github.event.client_payload.project }}",
+                  "stage": "${{ github.event.client_payload.stage}}",
+                  "service": "${{ github.event.client_payload.service}}",
+                  "status": "succeeded",
+                  "result": "pass"
+                },
+                "source": "github",
+                "specversion": "1.0",
+                "type": "sh.keptn.event.mytask-active.finished",
+                "shkeptncontext": "${{ github.event.client_payload.shkeptncontext }}",
+                "triggeredid": "${{ github.event.client_payload.id }}"
+              }
+          END
+          )
+          echo "json=$json"
+      - name: checkout
+        uses: actions/checkout@v3
+
+      # https://github.com/marketplace/actions/read-yaml
+      - name: Run read-yaml action
+        id: get-feature-flags
+        uses: KJ002/read-yaml@main # You may wish to replace main with a version tag such as '1.6' etc.
+        with:
+          file: "./config.yml" # File to read from
+          key-path: '["data", "config.json"]' # Access the runs key then the using key and returns the value.
+      - name: echo flags
+        run: |
+          echo "type = ${{ steps.get-feature-flags.outputs.data }}"
+    # - name: update data
+    #   run: |
+    #     git checkout enable-feature
