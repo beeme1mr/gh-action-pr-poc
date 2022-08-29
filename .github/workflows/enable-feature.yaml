@@ -49,15 +49,14 @@ jobs:
           file: "./config.yml" # File to read from
           key-path: '["data", "config.json"]' # Access the runs key then the using key and returns the value.
       - name: echo flags
-        run: |
-          echo "type = ${{ steps.get-feature-flags.outputs.data }}"
+        run: echo "${{ steps.get-feature-flags.outputs.data }}" > temp.json
       - name: check for variant
         uses: sergeysova/jq-action@v2
         id: variant-check
         with:
           # TODO change to real variant name
           cmd: |
-            echo "${{ steps.get-feature-flags.outputs.data }}" | jq .flags."$FLAG_KEY".variants.{{ github.event.client_payload.default_variant }}
+            cat temp.json | jq .flags."$FLAG_KEY".variants.{{ github.event.client_payload.default_variant }}
       - name: echo default variant
         run: |
           echo "default variant found = ${{ steps.variant-check.outputs.data }}"
