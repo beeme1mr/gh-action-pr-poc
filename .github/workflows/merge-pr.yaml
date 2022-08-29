@@ -14,10 +14,14 @@ jobs:
 
       - uses: actions/checkout@v2
       - uses: actions/github-script@v6
+        id: get-payload
         with:
+          result-encoding: string
           script: |
             const script = require('./notify-keptn.js')
-            console.log(script({github, context}))
+            return script({context})
+      - name: Get Results
+        run: echo "${{steps.get-payload.outputs.result}}"
 
   close_job:
     # this job will only run if the PR has been closed without being merged
@@ -32,7 +36,7 @@ jobs:
         with:
           script: |
             const script = require('./notify-keptn.js')
-            console.log(script({github, context}))
+            return script({context})
 
 # - name: my active task
 #   run: |
