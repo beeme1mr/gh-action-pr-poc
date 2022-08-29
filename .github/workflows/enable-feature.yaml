@@ -48,6 +48,8 @@ jobs:
           key-path: '["data", "config.json"]' # Access the runs key then the using key and returns the value.
       - name: echo flags
         run: echo "${{ steps.get-feature-flags.outputs.data }}" > temp.json
+      - name: Cat temp
+        run: echo temp.json
       - name: check for variant
         uses: sergeysova/jq-action@v2
         id: variant-check
