@@ -47,17 +47,6 @@ jobs:
           file: "./config.yml"
           key-path: '["data", "config.json"]'
 
-      - name: Ensure Variant Exists
-        uses: sergeysova/jq-action@v2
-        id: variant-check
-        with:
-          cmd: echo '${{ steps.get-feature-flags.outputs.data }}' | jq '.flags."${{ github.event.client_payload.flag_key }}".variants.${{ github.event.client_payload.default_variant }}'
-          multiline: true
-      # Throw if null
-      - name: echo default variant
-        run: |
-          if [ -z "${{ steps.variant-check.outputs.value }}"]; then echo "NULL"; else echo "Not NULL"; fi
-
       - name: Enable Feature Flag
         uses: sergeysova/jq-action@v2
         id: enable-feature
