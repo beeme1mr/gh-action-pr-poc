@@ -54,7 +54,7 @@ jobs:
           multiline: true
       - name: echo default variant
         run: |
-          echo "default variant found = ${{ steps.variant-check.outputs.data }}"
+          echo "default variant found = ${{ steps.variant-check.outputs.value }}"
 
       - name: enable feature
         uses: sergeysova/jq-action@v2
@@ -64,7 +64,7 @@ jobs:
           multiline: true
       - name: echo new config
         run: |
-          echo "new config = ${{ steps.enable-feature.outputs.data }}"
+          echo "new config = ${{ steps.enable-feature.outputs.value }}"
     # - name: update data
     #   run: |
     #     git checkout enable-feature
