@@ -20,8 +20,10 @@ jobs:
           script: |
             const script = require('./notify-keptn.js')
             return script({context})
-      - name: Get Results
-        run: echo "${{steps.get-payload.outputs.result}}"
+
+      - name: Send finished event
+        run: |
+          curl -X POST "https://webhook.site/1b60a678-faa5-4b4d-9e76-b6fe30484864" -H "Content-Type: application/json" -H "accept: application/json" -d "${{steps.get-payload.outputs.result}}"
 
   close_job:
     # this job will only run if the PR has been closed without being merged
@@ -37,31 +39,3 @@ jobs:
           script: |
             const script = require('./notify-keptn.js')
             return script({context})
-
-# - name: my active task
-#   run: |
-#     echo "Received active webhook, displaying received data"
-#     echo "type = ${{ github.event.client_payload.type }}"
-#     echo "shkeptncontext = ${{ github.event.client_payload.shkeptncontext }}"
-#     echo "id = ${{ github.event.client_payload.id }}"
-# - name: send finished event
-#   run: |
-#     echo "Received active webhook, will send back Keptn finished event"
-#     json=$(cat <<-END
-#         {
-#           "data": {
-#             "project":"${{ github.event.client_payload.project }}",
-#             "stage": "${{ github.event.client_payload.stage}}",
-#             "service": "${{ github.event.client_payload.service}}",
-#             "status": "succeeded",
-#             "result": "pass"
-#           },
-#           "source": "github",
-#           "specversion": "1.0",
-#           "type": "sh.keptn.event.mytask-active.finished",
-#           "shkeptncontext": "${{ github.event.client_payload.shkeptncontext }}",
-#           "triggeredid": "${{ github.event.client_payload.id }}"
-#         }
-#     END
-#     )
-#     echo "json=$json"
